@@ -57,11 +57,5 @@ namespace ServerTrack
             return status;
         }
 
-        public List<ServerLoadsPerMinute> GetMeanByMinutes()
-        {
-            List<ServerLoadsPerMinute> loads = new List<ServerLoadsPerMinute>();
-            
-            return loads;
-        }
     }
 }

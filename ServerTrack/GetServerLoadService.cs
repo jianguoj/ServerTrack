@@ -50,7 +50,7 @@ namespace ServerTrack
             for (int i = loads.Count; (LastDay > 0) && (i > 0); i = i - OffSet)
             {
                 anItem = loads.item(i);
-                int LastHour = HoursInDay;
+                int LastHour = MinutesInHour;
                 for (int j = i; (LastHour > 0) && (j > 0); j-- ){
                     if ( (anItem != null) && (serverName == anItem.ServerName) )
                     {
@@ -59,8 +59,13 @@ namespace ServerTrack
                         LastHour--;
                     }
                 }
-                hLoad[i].serverName = serverName;
-
+                int SampleCount = MinutesInHour - LastHour;
+                if ( SampleCount > 0 ) {
+                    hLoad[i].serverName = serverName;
+                    hLoad[i].meanCPUByHour /= SampleCount;
+                    hLoad[i].meanMemByHour /= SampleCount;
+                }
+                LastDay--;
             }
             
             return hLoad;

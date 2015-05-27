@@ -25,15 +25,15 @@ namespace ServerTrack
             ServerLoadsPerMinute[] mload = new ServerLoadsPerMinute[MinutesInHour];
             ServerLoads loads = ServerLoads.InstanceCreation();
             ServerLoad anItem;
-            for (int i = loads.Count - 1; (LastHour > 0) && (i > 0); i-- )
+            for (int i = loads.Count - 1; (LastHour > 0) && (i >= 0); i-- )
             {
                 anItem = loads.item(i);
                 if( (anItem != null) && (serverName == anItem.ServerName) )
                 {
-                    mload[LastHour - 1] = new ServerLoadsPerMinute();
-                    mload[LastHour - 1].serverName = anItem.ServerName;
-                    mload[LastHour - 1].meanCPUByMinute = anItem.CPULoad;
-                    mload[LastHour - 1].meanMemByMinute = anItem.MemoryLoad;
+                    mload[MinutesInHour - LastHour] = new ServerLoadsPerMinute();
+                    mload[MinutesInHour - LastHour].serverName = anItem.ServerName;
+                    mload[MinutesInHour - LastHour].meanCPUByMinute = anItem.CPULoad;
+                    mload[MinutesInHour - LastHour].meanMemByMinute = anItem.MemoryLoad;
                     LastHour--;
                 }
             }
@@ -72,7 +72,7 @@ namespace ServerTrack
                     serverLoadsPerHour.serverName = serverName;
                     serverLoadsPerHour.meanCPUByHour = meanCPUByHour / SampleCount;
                     serverLoadsPerHour.meanMemByHour = meanMemByHour / SampleCount;
-                    hLoad[i] = serverLoadsPerHour;
+                    hLoad[HoursInDay - LastDay] = serverLoadsPerHour;
                 }
                 LastDay--;
             }

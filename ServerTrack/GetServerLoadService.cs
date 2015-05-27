@@ -25,14 +25,15 @@ namespace ServerTrack
             ServerLoadsPerMinute[] mload = new ServerLoadsPerMinute[MinutesInHour];
             ServerLoads loads = ServerLoads.InstanceCreation();
             ServerLoad anItem;
-            for (int i = loads.Count; (LastHour > 0) && (i > 0); i-- )
+            for (int i = loads.Count - 1; (LastHour > 0) && (i > 0); i-- )
             {
                 anItem = loads.item(i);
                 if( (anItem != null) && (serverName == anItem.ServerName) )
                 {
-                    mload[LastHour].serverName = anItem.ServerName;
-                    mload[LastHour].meanCPUByMinute = anItem.CPULoad;
-                    mload[LastHour].meanMemByMinute = anItem.MemoryLoad;
+                    mload[LastHour - 1] = new ServerLoadsPerMinute();
+                    mload[LastHour - 1].serverName = anItem.ServerName;
+                    mload[LastHour - 1].meanCPUByMinute = anItem.CPULoad;
+                    mload[LastHour - 1].meanMemByMinute = anItem.MemoryLoad;
                     LastHour--;
                 }
             }
@@ -47,23 +48,31 @@ namespace ServerTrack
             ServerLoads loads = ServerLoads.InstanceCreation();
             ServerLoad anItem;
             int OffSet = 1;
-            for (int i = loads.Count; (LastDay > 0) && (i > 0); i = i - OffSet)
+            for (int i = loads.Count - 1; (LastDay > 0) && (i >= 0); i = i - OffSet)
             {
-                anItem = loads.item(i);
+                
                 int LastHour = MinutesInHour;
-                for (int j = i; (LastHour > 0) && (j > 0); j-- ){
+                double meanCPUByHour = 0;
+                double meanMemByHour = 0;
+                for (int j = i; (LastHour > 0) && (j >= 0); j-- ){
+
+                    anItem = loads.item(j);
                     if ( (anItem != null) && (serverName == anItem.ServerName) )
                     {
-                        hLoad[i].meanCPUByHour += anItem.CPULoad;
-                        hLoad[i].meanMemByHour += anItem.MemoryLoad;
+                        meanCPUByHour += anItem.CPULoad;
+                        meanMemByHour += anItem.MemoryLoad;
                         LastHour--;
+                        OffSet++;
                     }
+
                 }
                 int SampleCount = MinutesInHour - LastHour;
                 if ( SampleCount > 0 ) {
-                    hLoad[i].serverName = serverName;
-                    hLoad[i].meanCPUByHour /= SampleCount;
-                    hLoad[i].meanMemByHour /= SampleCount;
+                    ServerLoadsPerHour serverLoadsPerHour = new ServerLoadsPerHour();
+                    serverLoadsPerHour.serverName = serverName;
+                    serverLoadsPerHour.meanCPUByHour = meanCPUByHour / SampleCount;
+                    serverLoadsPerHour.meanMemByHour = meanMemByHour / SampleCount;
+                    hLoad[i] = serverLoadsPerHour;
                 }
                 LastDay--;
             }

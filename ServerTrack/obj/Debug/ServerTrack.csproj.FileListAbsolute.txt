@@ -1,0 +1,6 @@
+c:\users\jianguo\documents\visual studio 2013\Projects\ServerTrack\ServerTrack\bin\Debug\ServerTrack.dll.config
+c:\users\jianguo\documents\visual studio 2013\Projects\ServerTrack\ServerTrack\bin\Debug\ServerTrack.dll
+c:\users\jianguo\documents\visual studio 2013\Projects\ServerTrack\ServerTrack\bin\Debug\ServerTrack.pdb
+c:\users\jianguo\documents\visual studio 2013\Projects\ServerTrack\ServerTrack\obj\Debug\ServerTrack.csprojResolveAssemblyReference.cache
+c:\users\jianguo\documents\visual studio 2013\Projects\ServerTrack\ServerTrack\obj\Debug\ServerTrack.dll
+c:\users\jianguo\documents\visual studio 2013\Projects\ServerTrack\ServerTrack\obj\Debug\ServerTrack.pdb
